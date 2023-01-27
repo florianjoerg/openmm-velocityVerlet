@@ -57,13 +57,13 @@ void testSerialization() {
     
     VVIntegrator& integ2 = *copy;
     ASSERT_EQUAL(integ1.getTemperature(), integ2.getTemperature());
-    ASSERT_EQUAL(integ1.getCouplingTime(), integ2.getCouplingTime());
+    ASSERT_EQUAL(integ1.getFrequency(), integ2.getFrequency());
     ASSERT_EQUAL(integ1.getDrudeTemperature(), integ2.getDrudeTemperature());
-    ASSERT_EQUAL(integ1.getDrudeCouplingTime(), integ2.getDrudeCouplingTime());
-    ASSERT_EQUAL(integ1.getDrudeStepsPerRealStep(), integ2.getDrudeStepsPerRealStep());
+    ASSERT_EQUAL(integ1.getDrudeFrequency(), integ2.getDrudeFrequency());
+    ASSERT_EQUAL(integ1.getStepSize(), integ2.getStepSize());
     ASSERT_EQUAL(integ1.getNumNHChains(), integ2.getNumNHChains());
-    ASSERT_EQUAL(integ1.getUseDrudeNHChains(), integ2.getUseDrudeNHChains());
-    ASSERT_EQUAL(integ1.getConstraintTolerance(), integ2.getConstraintTolerance());
+    ASSERT_EQUAL(integ1.getLoopsPerStep(), integ2.getLoopsPerStep());
+    ASSERT_EQUAL(integ1.getMaxDrudeDistance(), integ2.getMaxDrudeDistance());
 }
 
 int main() {

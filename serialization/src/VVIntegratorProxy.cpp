@@ -43,25 +43,29 @@ VVIntegratorProxy::VVIntegratorProxy() : SerializationProxy("VVIntegrator") {
 void VVIntegratorProxy::serialize(const void* object, SerializationNode& node) const {
     node.setIntProperty("version", 1);
     const VVIntegrator& integrator = *reinterpret_cast<const VVIntegrator*>(object);
-    node.setDoubleProperty("stepSize", integrator.getStepSize());
-    node.setDoubleProperty("constraintTolerance", integrator.getConstraintTolerance());
     node.setDoubleProperty("temperature", integrator.getTemperature());
-    node.setDoubleProperty("couplingTime", integrator.getCouplingTime());
+    node.setDoubleProperty("frequency", integrator.getFrequency());
     node.setDoubleProperty("drudeTemperature", integrator.getDrudeTemperature());
-    node.setDoubleProperty("drudeCouplingTime", integrator.getDrudeCouplingTime());
-    node.setIntProperty("drudeStepsPerRealStep", integrator.getDrudeStepsPerRealStep());
+    node.setDoubleProperty("drudeFrequency", integrator.getDrudeFrequency());
+    node.setDoubleProperty("stepSize", integrator.getStepSize());
     node.setIntProperty("numNHChains", integrator.getNumNHChains());
-    node.setIntProperty("useDrudeNHChains", integrator.getUseDrudeNHChains());
+    node.setIntProperty("loopsPerStep", integrator.getLoopsPerStep());
+    node.setDoubleProperty("maxDrudeDistance", integrator.getMaxDrudeDistance());
+
+    //node.setDoubleProperty("constraintTolerance", integrator.getConstraintTolerance());
+    //node.setDoubleProperty("couplingTime", integrator.getCouplingTime());
+    //node.setDoubleProperty("drudeCouplingTime", integrator.getDrudeCouplingTime());
+    //node.setIntProperty("drudeStepsPerRealStep", integrator.getDrudeStepsPerRealStep());
+    //node.setIntProperty("useDrudeNHChains", integrator.getUseDrudeNHChains());
 }
 
 void* VVIntegratorProxy::deserialize(const SerializationNode& node) const {
     if (node.getIntProperty("version") != 1)
         throw OpenMMException("Unsupported version number");
     VVIntegrator *integrator = new VVIntegrator(node.getDoubleProperty("temperature"),
-            node.getDoubleProperty("couplingTime"), node.getDoubleProperty("drudeTemperature"),
-            node.getDoubleProperty("drudeCouplingTime"), node.getDoubleProperty("stepSize"),
-            node.getIntProperty("drudeStepsPerRealStep"), node.getIntProperty("numNHChains"),
-            node.getBoolProperty("useDrudeNHChains"));
-    integrator->setConstraintTolerance(node.getDoubleProperty("constraintTolerance"));
+            node.getDoubleProperty("frequency"), node.getDoubleProperty("drudeTemperature"),
+            node.getDoubleProperty("drudeFrequency"), node.getDoubleProperty("stepSize"),
+            node.getIntProperty("numNHChains"), node.getIntProperty("loopsPerStep"));
+    integrator->setConstraintTolerance(node.getDoubleProperty("maxDrudeDistance"));
     return integrator;
 }
