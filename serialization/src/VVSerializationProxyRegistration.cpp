@@ -55,7 +55,7 @@
         return TRUE;
     }
 #else
-    extern "C" void __attribute__((constructor)) registerVVerializationProxies();
+    extern "C" void __attribute__((constructor)) registerVVSerializationProxies();
 #endif
 
 using namespace OpenMM;
