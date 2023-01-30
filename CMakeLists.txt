@@ -14,7 +14,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 project(OpenMM-VelocityVerlet)
 
 # We need to know where OpenMM is installed so we can access the headers and libraries.
-SET(OPENMM_DIR "/usr/local/openmm" CACHE PATH "Where OpenMM is installed")
+SET(OPENMM_DIR "/scratch/data/florian/anaconda3/pkgs/openmm-7.6.0-py39h71eca04_0" CACHE PATH "Where OpenMM is installed")
+# SET(OPENMM_DIR "/scratch/data/florian/anaconda3/pkgs/openmm-7.5.0-py39hf184bcd_5" CACHE PATH "Where OpenMM is installed")
 INCLUDE_DIRECTORIES("${OPENMM_DIR}/include")
 LINK_DIRECTORIES("${OPENMM_DIR}/lib" "${OPENMM_DIR}/lib/plugins")
 
@@ -54,11 +55,13 @@ IF (${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
         SET(CMAKE_INSTALL_PREFIX "/usr/local/openmm" CACHE PATH "Where to install the plugin" FORCE)
     ENDIF (WIN32)
 ENDIF (${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
+SET(CMAKE_INSTALL_PREFIX "/scratch/data/florian/anaconda3/envs/openmm_pickle/" CACHE PATH "Where to install the plugin" FORCE)
+# SET(CMAKE_INSTALL_PREFIX "/scratch/data/florian/anaconda3/envs/openmm/" CACHE PATH "Where to install the plugin" FORCE)
 
 # The source is organized into subdirectories, but we handle them all from
 # this CMakeLists file rather than letting CMake visit them as SUBDIRS.
 #SET(VELOCITYVERLET_PLUGIN_SOURCE_SUBDIRS openmmapi serialization)
-SET(VELOCITYVERLET_PLUGIN_SOURCE_SUBDIRS openmmapi)
+SET(VELOCITYVERLET_PLUGIN_SOURCE_SUBDIRS openmmapi serialization)
 
 # Set the library name
 SET(VELOCITYVERLET_LIBRARY_NAME OpenMMVelocityVerlet)
@@ -106,25 +109,25 @@ INSTALL(FILES ${API_ONLY_INCLUDE_FILES_INTERNAL} DESTINATION include/internal)
 # Enable testing
 
 ENABLE_TESTING()
-#ADD_SUBDIRECTORY(serialization/tests)
+ADD_SUBDIRECTORY(serialization/tests)
 
 # Build the implementations for different platforms
 
 #ADD_SUBDIRECTORY(platforms/reference)
 
-SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
-FIND_PACKAGE(OpenCL QUIET)
+#SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
+#FIND_PACKAGE(OpenCL QUIET)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
 FIND_PACKAGE(OpenCL QUIET)
 #IF(OPENCL_FOUND)
 #    SET(VELOCITYVERLET_BUILD_OPENCL_LIB ON CACHE BOOL "Build implementation for OpenCL")
 #ELSE(OPENCL_FOUND)
-SET(VELOCITYVERLET_BUILD_OPENCL_LIB OFF CACHE BOOL "Build implementation for OpenCL")
-#ENDIF(OPENCL_FOUND)
-IF (VELOCITYVERLET_BUILD_OPENCL_LIB)
-    ADD_SUBDIRECTORY(platforms/opencl)
-ENDIF (VELOCITYVERLET_BUILD_OPENCL_LIB)
+#SET(VELOCITYVERLET_BUILD_OPENCL_LIB OFF CACHE BOOL "Build implementation for OpenCL")
+##ENDIF(OPENCL_FOUND)
+#IF (VELOCITYVERLET_BUILD_OPENCL_LIB)
+#    ADD_SUBDIRECTORY(platforms/opencl)
+#ENDIF (VELOCITYVERLET_BUILD_OPENCL_LIB)
 
 FIND_PACKAGE(CUDA QUIET)
 IF (CUDA_FOUND)
