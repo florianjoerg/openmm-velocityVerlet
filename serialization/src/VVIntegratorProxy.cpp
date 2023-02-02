@@ -66,6 +66,6 @@ void* VVIntegratorProxy::deserialize(const SerializationNode& node) const {
             node.getDoubleProperty("frequency"), node.getDoubleProperty("drudeTemperature"),
             node.getDoubleProperty("drudeFrequency"), node.getDoubleProperty("stepSize"),
             node.getIntProperty("numNHChains"), node.getIntProperty("loopsPerStep"));
-    integrator->setConstraintTolerance(node.getDoubleProperty("maxDrudeDistance"));
+    integrator->setMaxDrudeDistance(node.getDoubleProperty("maxDrudeDistance"));
     return integrator;
 }
